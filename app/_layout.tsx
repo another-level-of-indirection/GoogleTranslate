@@ -32,6 +32,16 @@ export default function RootLayout() {
           ),
         }}
       />
+      <Tabs.Screen
+        name="flashcards"
+        options={{
+          title: 'Flashcards',
+          headerTitle: 'Thai Flashcards',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="clone" size={size} color={color} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }

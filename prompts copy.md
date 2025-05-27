@@ -1,14 +1,15 @@
 Add a new tab that will provide a flash card like UI for learning Thai.  For each flash card:
 
-    Display a word written in Thai from words.json.  Only show words that have been do not have an empty string for the english translations.
+    Display a word written in Thai from words.json.  Only show words that have been do not have an empty string for the english translation.
 
     Allow the learner to write the english translation of the word.
+
 
     The app will compare the users entry with the data from the words.json.
 
     If the translation is incorrect, the app will display the correct translation.
 
-    The app will then ask the user to pronounce the word by clicking a button.
+    If the entry is correct, the app will ask the user to pronounce the word by clicking a button.
 
     The app will test for the correctness of the users pronunciation of the word by sending the pronunciation to the google cloud speech to text api and then to translation api and comparing the result to the translation in words.json.
 
