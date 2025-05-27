@@ -1,12 +1,11 @@
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { Stack } from 'expo-router';
 import { useState } from 'react';
-import { Text, View, TextInput, FlatList } from 'react-native';
+import { FlatList, Text, TextInput, View } from 'react-native';
 
 import { languages } from '~/assets/languages';
 import AudioRecording from '~/components/AudioRecording';
-import { translate, textToSpeech, audioToText } from '~/utils/translation';
+import { audioToText, textToSpeech, translate } from '~/utils/translation';
 
 export default function Home() {
   const [input, setInput] = useState('');
@@ -51,8 +50,6 @@ export default function Home() {
 
   return (
     <View style={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', maxWidth: 576 }}>
-      <Stack.Screen options={{ title: 'Translate' }} />
-
       {/* Language selector row */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 20 }}>
         <Text
