@@ -39,7 +39,6 @@ Open VS Code terminal (`Ctrl+`` `) and configure Git:
 
 ```bash
 git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"
 ```
 
 ### 1.2 Sign in to GitHub
