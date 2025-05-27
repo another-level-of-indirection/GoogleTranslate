@@ -12,10 +12,6 @@
     {
       "name": "nativewind",
       "type": "styling"
-    },
-    {
-      "name": "supabase",
-      "type": "authentication"
     }
   ],
   "flags": {

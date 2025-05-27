@@ -11,8 +11,8 @@ import { translate, textToSpeech, audioToText } from '~/utils/translation';
 export default function Home() {
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
-  const [languageFrom, setLanguageFrom] = useState('English');
-  const [languageTo, setLanguageTo] = useState('Spanish');
+  const [languageFrom, setLanguageFrom] = useState('Thai');
+  const [languageTo, setLanguageTo] = useState('English');
   const [selectLanguageMode, setSelectLanguageMode] = useState<'from' | 'to' | null>(null);
 
   const onTranslate = async () => {
@@ -21,7 +21,7 @@ export default function Home() {
   };
 
   const speechToText = async (uri: string) => {
-    const text = await audioToText(uri);
+    const text = await audioToText(uri, languageFrom);
     setInput(text);
     const translation = await translate(text, languageFrom, languageTo);
     setOutput(translation);
@@ -50,11 +50,11 @@ export default function Home() {
   }
 
   return (
-    <View className="mx-auto w-full max-w-xl">
+    <View style={{ marginLeft: 'auto', marginRight: 'auto', width: '100%', maxWidth: 576 }}>
       <Stack.Screen options={{ title: 'Translate' }} />
 
       {/* Language selector row */}
-      <View className="flex-row justify-around p-5">
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 20 }}>
         <Text
           onPress={() => setSelectLanguageMode('from')}
           className="font-semibold color-blue-600">
@@ -76,7 +76,7 @@ export default function Home() {
 
       {/* Input container */}
       <View className="border-y border-gray-300 p-5">
-        <View className="flex-row gap-5">
+        <View style={{ flexDirection: 'row', gap: 20 }}>
           {/* input */}
           <TextInput
             value={input}
@@ -97,17 +97,17 @@ export default function Home() {
         <View className="flex-row justify-between">
           <AudioRecording onNewRecording={(uri) => speechToText(uri)} />
 
-          <Text className="color-gray-500">{input.length} / 5000</Text>
+          <Text className="color-gray-500">{input.length.toString()} / 5000</Text>
         </View>
       </View>
 
       {/* Output container */}
-      {output && (
+      {Boolean(output) && (
         <View className="gap-5 bg-gray-200 p-5">
           <Text className="min-h-32 text-xl">{output}</Text>
           <View className="flex-row justify-between">
             <FontAwesome6
-              onPress={() => textToSpeech(output)}
+              onPress={() => textToSpeech(output, languageTo)}
               name="volume-high"
               size={18}
               color="dimgray"

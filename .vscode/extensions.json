@@ -1,3 +1,22 @@
 {
-  "recommendations": ["denoland.vscode-deno"]
+  "recommendations": [
+    "eamodio.gitlens",
+    "GitHub.vscode-pull-request-github",
+    "mhutchie.git-graph",
+    "donjayamanne.githistory",
+    "ms-vscode.vscode-typescript-next",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "ms-vscode.vscode-eslint",
+    "expo.vscode-expo-tools",
+    "ms-vscode.vscode-json",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "ms-vscode.vscode-typescript-next",
+    "bradlc.vscode-tailwindcss",
+    "ms-vscode.vscode-react-native"
+  ],
+  "unwantedRecommendations": [
+    "ms-vscode.vscode-typescript"
+  ]
 }

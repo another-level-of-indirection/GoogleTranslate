@@ -1,56 +1,57 @@
 import { FontAwesome5, FontAwesome6 } from '@expo/vector-icons';
-import { Audio } from 'expo-av';
-import { useState } from 'react';
+import { useAudioRecorder, RecordingPresets, AudioModule } from 'expo-audio';
+import { useState, useEffect } from 'react';
 
 export default function AudioRecording({
   onNewRecording,
 }: {
   onNewRecording: (uri: string) => void;
 }) {
-  const [recording, setRecording] = useState<Audio.Recording>();
-  const [permissionResponse, requestPermission] = Audio.usePermissions();
+  const audioRecorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
+  const [isRecording, setIsRecording] = useState(false);
 
-  async function startRecording() {
-    try {
-      if (permissionResponse?.status !== 'granted') {
-        console.log('Requesting permission..');
-        await requestPermission();
+  useEffect(() => {
+    (async () => {
+      const status = await AudioModule.requestRecordingPermissionsAsync();
+      if (!status.granted) {
+        console.log('Permission to access microphone was denied');
       }
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: true,
-        playsInSilentModeIOS: true,
-      });
+    })();
+  }, []);
 
+  const startRecording = async () => {
+    try {
       console.log('Starting recording..');
-      const { recording } = await Audio.Recording.createAsync(
-        Audio.RecordingOptionsPresets.HIGH_QUALITY
-      );
-      setRecording(recording);
+      await audioRecorder.prepareToRecordAsync();
+      audioRecorder.record();
+      setIsRecording(true);
       console.log('Recording started');
     } catch (err) {
       console.error('Failed to start recording', err);
     }
-  }
+  };
 
-  async function stopRecording() {
-    if (!recording) {
+  const stopRecording = async () => {
+    if (!audioRecorder) {
       return;
     }
     console.log('Stopping recording..');
-    setRecording(undefined);
-    await recording.stopAndUnloadAsync();
-    await Audio.setAudioModeAsync({
-      allowsRecordingIOS: false,
-    });
-    const uri = recording.getURI();
-    console.log('Recording stopped and stored at', uri);
+    
+    try {
+      // The recording will be available on `audioRecorder.uri`.
+      await audioRecorder.stop();
+      setIsRecording(false);
+      console.log('Recording stopped and stored at', audioRecorder.uri);
 
-    if (uri) {
-      onNewRecording(uri);
+      if (audioRecorder.uri) {
+        onNewRecording(audioRecorder.uri);
+      }
+    } catch (err) {
+      console.error('Failed to stop recording', err);
     }
-  }
+  };
 
-  if (recording) {
+  if (isRecording) {
     return <FontAwesome5 onPress={stopRecording} name="stop-circle" size={18} color="royalblue" />;
   }
 
